@@ -5,11 +5,10 @@ import { CartActions } from "../reducers/cartReducer";
 type HeaderProps = {
   cart: CartItem[];
   dispatch: Dispatch<CartActions>;
-  clearCart: () => void;
 };
 
 export function Header({ cart, dispatch }: HeaderProps) {
-  const isEmpty = useMemo(() => cart.length === 0, [cart]);
+  const isEmpty = cart.length === 0;
   const cartTotal = useMemo(
     () => cart.reduce((total, item) => total + item.quantity * item.price, 0),
     [cart]
@@ -39,7 +38,9 @@ export function Header({ cart, dispatch }: HeaderProps) {
 
                 <div id="carrito" className="bg-white p-3">
                   {isEmpty ? (
-                    <p className="text-center">El carrito esta vacio</p>
+                    <p className="btn btn-dark w-100 mt-3 p-2 text-center">
+                      El carrito esta vacio
+                    </p>
                   ) : (
                     <>
                       <table className="w-100 table">
@@ -113,14 +114,14 @@ export function Header({ cart, dispatch }: HeaderProps) {
                         Total pagar:
                         <span className="fw-bold">{cartTotal}$</span>
                       </p>
+                      <button
+                        className="btn btn-dark w-100 mt-3 p-2"
+                        onClick={() => dispatch({ type: "clearCart" })}
+                      >
+                        Vaciar Carrito
+                      </button>
                     </>
                   )}
-                  <button
-                    className="btn btn-dark w-100 mt-3 p-2"
-                    onClick={() => dispatch({ type: "clearCart" })}
-                  >
-                    Vaciar Carrito
-                  </button>
                 </div>
               </div>
             </nav>
